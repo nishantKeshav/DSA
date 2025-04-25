@@ -5,19 +5,31 @@ class MyStack {
     public MyStack() {
         stack = new LinkedList<>();
     }
-    
+
+    // using 2 Queues
+    // public void push(int x) {
+    //     if (stack.isEmpty()) {
+    //         stack.offer(x);
+    //         return;
+    //     }
+    //     Queue<Integer> temp = new LinkedList<>();
+    //     temp.offer(x); 
+    //     while (!stack.isEmpty()) {
+    //         temp.offer(stack.poll());
+    //     }
+    //     stack = temp; 
+    // }
+
+    // using 1 queue
     public void push(int x) {
         if (stack.isEmpty()) {
             stack.offer(x);
             return;
         }
-        Queue<Integer> temp = new LinkedList<>();
-        temp.offer(x); 
-
-        while (!stack.isEmpty()) {
-            temp.offer(stack.poll());
+        stack.offer(x);
+        for (int i = 1 ; i < stack.size() ; i++) {
+            stack.offer(stack.poll());
         }
-        stack = temp; 
     }
     
     public int pop() {
