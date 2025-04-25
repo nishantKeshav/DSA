@@ -19,7 +19,14 @@ class Solution {
                 currentMod += (modulo);
             }
 
+            // (prefix[r] - prefix[l-1]) % modulo == k
+            // (sum - prevSum) % modulo == k
+            // sum % modulo - prevSum % modulo ≡ k (mod modulo)
+            // (prevSum % modulo) ≡ (sum % modulo - k + modulo) % modulo
+            // int targetMod = (currentMod - k + modulo) % modulo;
+            // explaination of targetMod
             int targetMod = (currentMod - k + modulo) % modulo;
+
             ans += map.getOrDefault(targetMod , 0);
 
             map.put(currentMod , map.getOrDefault(currentMod , 0) + 1);
