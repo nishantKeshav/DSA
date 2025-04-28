@@ -1,60 +1,38 @@
 class Solution {
-
     public void wiggleSort(int[] nums) {
+        Arrays.sort(nums);
         int n = nums.length;
-
-        // Find median
-        int median = findKthLargest(nums, (n + 1) / 2);
-
-        int left = 0, i = 0, right = n - 1;
-
-        // Virtual Index Mapping
-        while (i <= right) {
-            int mappedIndex = mapIndex(i, n);
-            if (nums[mappedIndex] > median) {
-                swap(nums, mapIndex(left++, n), mappedIndex);
-                i++;
-            } else if (nums[mappedIndex] < median) {
-                swap(nums, mapIndex(right--, n), mappedIndex);
-            } else {
-                i++;
+        int left = (n - 1) / 2;
+        int right = n - 1;
+        int res[] = new int[n];
+        int i = 0;
+        while(left >= 0) {
+            res[i++] = nums[left--];
+            if (i >= n) {
+                break;
             }
+            res[i++] = nums[right--];
         }
-    }
-
-    private int mapIndex(int i, int n) {
-        return (1 + 2 * i) % (n | 1);
-    }
-
-    private int findKthLargest(int[] nums, int k) {
-        int left = 0, right = nums.length - 1;
-        while (true) {
-            int pos = partition(nums, left, right);
-            if (pos == k - 1) {
-                return nums[pos];
-            } else if (pos > k - 1) {
-                right = pos - 1;
-            } else {
-                left = pos + 1;
-            }
+        for (i = 0 ; i < n ; i++) {
+            nums[i] = res[i];
         }
+        return;
+
+        // wiggle Sort 1
+        // int n = nums.length;
+        // for (int i = 1 ; i < n ; i++) {
+        //     if (i % 2 == 1 && nums[i] <= nums[i-1]) {
+        //         swap(nums , i , i-1);
+        //     } else if (i % 2 == 0 && nums[i] >= nums[i-1]) {
+        //         swap(nums , i , i-1);
+        //     }
+        // }
+        // return;
     }
 
-    private int partition(int[] nums, int left, int right) {
-        int pivot = nums[right];
-        int storeIndex = left;
-        for (int i = left; i < right; i++) {
-            if (nums[i] > pivot) {
-                swap(nums, storeIndex++, i);
-            }
-        }
-        swap(nums, storeIndex, right);
-        return storeIndex;
-    }
-
-    private void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
+    public void swap(int nums[] , int a , int b) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
     }
 }
