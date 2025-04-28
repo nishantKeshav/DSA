@@ -1,6 +1,18 @@
 class Solution {
     public void wiggleSort(int[] nums) {
-        Arrays.sort(nums);
+        int freq[] = new int[5001];
+        for (int num : nums) {
+            freq[num]++;
+        }
+        int idx = 0;
+        for (int i = 0 ; i < 5001 ; i++) {
+            if (freq[i] != 0) {
+                int val = freq[i];
+                while(val-- > 0) {
+                    nums[idx++] = i;
+                }
+            }
+        }
         int n = nums.length;
         int left = (n - 1) / 2;
         int right = n - 1;
