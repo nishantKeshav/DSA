@@ -22,10 +22,6 @@ class Solution {
             return false;
         }
         // System.out.println(open + " " + star);
-        // if (open == 0) {
-        //     return true;
-        // }
-        // System.out.println("check");
         open = 0;
         star = 0;
         for (int i = n - 1 ; i >= 0 ; i--) {
