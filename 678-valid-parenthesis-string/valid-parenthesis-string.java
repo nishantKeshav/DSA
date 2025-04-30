@@ -18,9 +18,13 @@ class Solution {
                 }
             }
         }
-        if (open == 0) {
-            return true;
+        if (star < open) {
+            return false;
         }
+        // System.out.println(open + " " + star);
+        // if (open == 0) {
+        //     return true;
+        // }
         // System.out.println("check");
         open = 0;
         star = 0;
@@ -39,6 +43,10 @@ class Solution {
                     return false;
                 }
             }
+        }
+        // System.out.println(open + " " + star);
+        if (star < open) {
+            return false;
         }
         return true;
     }
