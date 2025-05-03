@@ -43,7 +43,7 @@ class Solution {
 
         // Used for next greater element (strictly greater)
         for (int i = n - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && nums[stack.peek()] <= nums[i]) { // corrected condition
+            while (!stack.isEmpty() && nums[stack.peek()] <= nums[i]) {
                 stack.pop();
             }
             nge[i] = stack.isEmpty() ? n : stack.peek();
