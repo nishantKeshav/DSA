@@ -1,55 +1,61 @@
 class Solution {
     public long subArrayRanges(int[] nums) {
-        long sum = 0;
-        int N = nums.length;
-        int[] pse = new int[N];
-        int[] nse = new int[N];
-        Stack<Integer> st = new Stack<>();
-        for(int i=N-1;i>=0;i--){
-            while(!st.isEmpty() && nums[st.peek()]>=nums[i])
-                st.pop();
-            nse[i] = st.isEmpty()?N:st.peek();
-            st.push(i);
+        int n = nums.length;
+
+        int pse[] = new int[n];
+        int nse[] = new int[n];
+        int pge[] = new int[n];
+        int nge[] = new int[n];
+        Stack<Integer> stack = new Stack<>();
+
+        // Used for previous smaller element (smaller or equal)
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                stack.pop();
+            }
+            pse[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
         }
-        st = new Stack<>();
-        for(int i=0;i<N;i++){
-            while(!st.isEmpty() && nums[st.peek()]>nums[i])
-                st.pop();
-            pse[i] = st.isEmpty()?-1:st.peek();
-            st.push(i);
+
+        stack = new Stack<>();
+
+        // Used for next smaller element (strictly smaller)
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && nums[stack.peek()] >= nums[i]) {
+                stack.pop();
+            }
+            nse[i] = stack.isEmpty() ? n : stack.peek();
+            stack.push(i);
         }
-        long sumOfSubarrayMinimums = 0;
-        for(int i=0;i<N;i++){
-            long cnteleleft = i-pse[i];
-            long cnteleright = nse[i]-i;
-            sumOfSubarrayMinimums+=cnteleleft*cnteleright*nums[i];
+
+        stack = new Stack<>();
+
+        // Used for previous greater element (greater or equal)
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) { 
+                stack.pop();
+            }
+            pge[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
         }
-        int[] pge = new int[N];
-        int[] nge = new int[N];
-        st = new Stack<>();
-        for(int i=N-1;i>=0;i--){
-            while(!st.isEmpty() && nums[st.peek()]<=nums[i])
-                st.pop();
-            nge[i] = st.isEmpty()?N:st.peek();
-            st.push(i);
+
+        stack = new Stack<>();
+
+        // Used for next greater element (strictly greater)
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && nums[stack.peek()] <= nums[i]) { // corrected condition
+                stack.pop();
+            }
+            nge[i] = stack.isEmpty() ? n : stack.peek();
+            stack.push(i);
         }
-        st = new Stack<>();
-        for(int i=0;i<N;i++){
-            while(!st.isEmpty() && nums[st.peek()]<nums[i])
-                st.pop();
-            pge[i] = st.isEmpty()?-1:st.peek();
-            st.push(i);
+
+        long maximumSum = 0, minimumSum = 0;
+        for (int i = 0; i < n; i++) {
+            maximumSum += (nums[i] * (long)(nge[i] - i) * (long)(i - pge[i]));
+            minimumSum += (nums[i] * (long)(nse[i] - i) * (long)(i - pse[i]));
         }
-        long sumOfSubarrayMaximums = 0;
-        for(int i=0;i<N;i++){
-            long cnteleleft = i-pge[i];
-            long cnteleright = nge[i]-i;
-            sumOfSubarrayMaximums+=cnteleleft*cnteleright*nums[i];
-        }
-        // System.out.println(Arrays.toString(nse));
-        // System.out.println(Arrays.toString(pse));
-        // System.out.println(Arrays.toString(nge));
-        // System.out.println(Arrays.toString(pge));
-        return sumOfSubarrayMaximums-sumOfSubarrayMinimums;
+
+        return maximumSum - minimumSum;
     }
 }
