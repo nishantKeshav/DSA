@@ -12,9 +12,7 @@ class Solution {
                     String keyGrid = board[i][j] + ":" + (i / 3) + "-" + (j / 3);
 
                     if (seen.contains(keyRow) || seen.contains(keyCol) || seen.contains(keyGrid)) {
-                        System.out.println(keyRow);
-                        System.out.println(keyCol);
-                        System.out.println(keyGrid);
+                        
                         return false;
                     }
 
